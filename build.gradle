@@ -1,0 +1,55 @@
+
+buildscript {
+
+    ext { //전역변수 설정하겠다는 의미
+        springBootVersion = '2.1.7.RELEASE' //전역변수 설정
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") //spring Boot 버전을 위와 같이 설정하겠다
+        classpath "io.spring.gradle:dependency-management-plugin:1.1.0"
+    }
+
+}
+
+//4개 플러그인은 스프링부트의 의존설을 관리해주는 플러그인이라 꼭 추가해야 함
+apply plugin : 'java'
+apply plugin : 'eclipse'
+apply plugin : 'org.springframework.boot'
+apply plugin : 'io.spring.dependency-management'
+
+repositories {
+    //의존성(라이브러리)들을 어떤 원격 저장소에서 받을지 결정
+    //기본적으로 mavenCentral 을 사용하지만, 최근에는 라이브러리 업로드 난이도 때문에 jcenter도 많이 사용
+    //요새는 jcenter에 라이브러리를 업로드 하면 mavenCentral 에도 업로드 될 수 있도록 자동화 할 수 있음
+    //점점 jcenter로 변경되는 추세임. 여기서는 둘다 사용하겠음
+    mavenCentral()
+    jcenter()
+}
+
+group 'www.SpringBoot.com'
+version '1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+}
+
+//프로젝트 개발에 필요한 의존성을 선언하는 곳
+//인털리제이의 경우 메이븐 저장소의 데이터를 인덱싱해서 관리하기 때문에 커뮤니티 버전을 사용해도 의존성 자동완성이 가능함
+dependencies {
+    //책이랑 다른듯..?
+    //이때 버전을 명시하지 않아야 함. 그래야 위에서 선언한 변수 ${springBootVersion}를 따라감
+    //이렇게 사용해야 버전 관리를 따로 하지 않아도 되고, 버전 충돌시에도 간편하게 변경할 수 있음
+    //https://velog.io/@g0709-19/Gradle-Could-not-find-method-compile-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95
+    // compile('org.springframework.boot:spring-boot-starter-web')
+    // testCompile('org.springframework.boot:spring-boot-starter-web')
+    // 위 두개는 아래 두개로 변경됐음
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
